@@ -5,7 +5,6 @@ import {
 	NavigationMenuList,
 } from "../../components/ui/navigation-menu";
 import { menuListBattons } from "./constants";
-import Link from "next/link";
 import Image from "next/image";
 import LogoImage from "../../../public/logo.png";
 import { map } from "lodash";
@@ -28,11 +27,9 @@ export const Navigation = () => {
 				<NavigationMenuList className="flex space-x-25">
 					{map(menuListBattons, ({ href, icon: Icon, text }) => (
 						<NavigationMenuItem key={text}>
-							<NavigationMenuLink>
-								<Link href={href} className="flex gap-3">
-									<Icon />
-									{text}
-								</Link>
+							<NavigationMenuLink href={href} className="flex flex-row gap-3">
+								<Icon />
+								{text}
 							</NavigationMenuLink>
 						</NavigationMenuItem>
 					))}
