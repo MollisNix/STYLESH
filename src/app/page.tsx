@@ -1,8 +1,9 @@
-import {Navigation} from "../features/navigation/index"
-
+import { Banner } from "@/components/banner";
 
 export default function Home() {
-  return (
-    <Navigation/>
-  );
+	return (
+		<>
+			<Banner />
+		</>
+	);
 }
