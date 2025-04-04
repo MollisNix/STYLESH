@@ -14,10 +14,12 @@ export const Navigation = () => {
 	return (
 		<header className="container flex justify-between border-b-1 my-10 mx-auto pb-7">
 			<div className="flex gap-5">
-				<Image src={LogoImage} className="" alt="navigation logo" />
+				<Image src={LogoImage} alt="navigation logo" />
 
 				<div className="logo-text__content">
-					<h1 className="">STYLESH</h1>
+					<h1>
+						<strong>STYLESH</strong>
+					</h1>
 					<p>Магазин кращих кросівок</p>
 				</div>
 			</div>
