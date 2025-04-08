@@ -1,0 +1,64 @@
+{
+	"storageItems": [
+		{
+			"itemImage": "/nike_1.jpg",
+			"itemName": "Чоловічі Кросівки Nike Blazer Mid Suede",
+			"itemPrice": "4 тис. грн.",
+			"id": "1"
+		},
+		{
+			"itemImage": "/nike_2.jpg",
+			"itemName": "Чоловічі Кросівки Nike Air Max 270",
+			"itemPrice": "6 тис. грн.",
+			"id": "2"
+		},
+		{
+			"itemImage": "/nike_3.jpg",
+			"itemName": "Чоловічі Кросівки Nike Blazer Mid Suede",
+			"itemPrice": "2 тис. грн.",
+			"id": "3"
+		},
+		{
+			"itemImage": "/nike_4.jpg",
+			"itemName": "Кросівки Puma X Aka Boku Future Rider",
+			"itemPrice": "4 тис. грн.",
+			"id": "4"
+		},
+		{
+			"itemImage": "/nike_5.jpg",
+			"itemName": "Чоловічі Кросівки Under Armour Curry 8",
+			"itemPrice": "8 тис. грн.",
+			"id": "5"
+		},
+		{
+			"itemImage": "/nike_6.jpg",
+			"itemName": "Чоловічі Кросівки Nike Kyrie 7",
+			"itemPrice": "9 тис. грн.",
+			"id": "6"
+		},
+		{
+			"itemImage": "/nike_7.jpg",
+			"itemName": "Чоловічі Кросівки Jordan Air Jordan 11",
+			"itemPrice": "12 тис. грн.",
+			"id": "7"
+		},
+		{
+			"itemImage": "/nike_8.jpg",
+			"itemName": "Чоловічі Кросівки Nike LeBron XVIII",
+			"itemPrice": "3.5 тис. грн.",
+			"id": "8"
+		},
+		{
+			"itemImage": "/nike_9.jpg",
+			"itemName": "Чоловічі Кросівки Nike Kyrie Flytrap IV",
+			"itemPrice": "4 тис. грн.",
+			"id": "9"
+		},
+		{
+			"itemImage": "/nike_10.jpg",
+			"itemName": "Чоловічі Кросівки Nike Blazer Mid Suede",
+			"itemPrice": "4 тис. грн.",
+			"id": "10"
+		}
+	]
+}
