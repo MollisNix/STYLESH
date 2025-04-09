@@ -2,6 +2,7 @@ import { create } from "zustand";
 import {
 	MarketplaceStoreType,
 	MarketplaceData,
+	CartStoreType,
 } from "./types/marketplace-types";
 
 export const useMarketplaceStore = create<MarketplaceStoreType>((set) => ({
@@ -82,3 +83,21 @@ export const useMarketplaceStore = create<MarketplaceStoreType>((set) => ({
 		set({ marketplaceItems: initialization });
 	},
 }));
+
+
+export const useCartStore = create<CartStoreType>((set) => ({
+	isCartOpen: false,
+	isCartSuccess: false,
+
+	updateIsCartOpen: ()=> {
+		set((state) => {
+			return {...state, isCartOpen: !state.isCartOpen}
+		})
+	},
+
+	updateisCartSuccess: ()=> {
+		set((state)=> {
+			return {...state, isCartSuccess: !state.isCartSuccess}
+		})
+	}
+}))
