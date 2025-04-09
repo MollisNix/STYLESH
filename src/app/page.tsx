@@ -1,11 +1,14 @@
 import { Banner } from "@/components/banner";
-import { Marketplace } from "@/features/marketplace/components/marketplace";
+import { Cart } from "@/features/cart";
+
+import { Marketplace } from "@/features/marketplace";
 
 export default function Home() {
 	return (
 		<>
 			<Banner />
 			<Marketplace/>
+			<Cart/>
 		</>
 	);
 }

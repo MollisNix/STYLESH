@@ -3,18 +3,19 @@
 import { SquarePlus, Heart } from "lucide-react";
 
 import Image from "next/image";
-import { Input } from "../../../components/ui/input";
+import { Input } from "../../components/ui/input";
 
-import {Card,
-				CardContent,
-				CardFooter,
-				CardHeader,
-} from "../../../components/ui/card";
+import {
+	Card,
+	CardContent,
+	CardFooter,
+	CardHeader,
+} from "../../components/ui/card";
 
 import { map } from "lodash";
 import { useEffect } from "react";
 
-import { useMarketplaceStore } from "../../../../store/marketplace-store";
+import { useMarketplaceStore } from "../../../store/marketplace-store";
 
 export const Marketplace = () => {
 	const marketplaceData = useMarketplaceStore(
@@ -65,7 +66,7 @@ export const Marketplace = () => {
 					/>
 				</form>
 			</div>
-			<div className="marketplace body flex flex-wrap justify-center gap-5">
+			<div className="marketplace flex flex-wrap justify-center gap-5">
 				{map(marketplaceData, (item) => (
 					<Card key={item.id} className="basis-2xs">
 						<CardHeader>
@@ -97,8 +98,7 @@ export const Marketplace = () => {
 						</CardContent>
 						<CardFooter className="flex justify-between">
 							<strong>Ціна:</strong>
-							{item.itemPrice}
-
+							<strong>{item.itemPrice} тис. грн.</strong>
 							{item.isAdded ? (
 								<SquarePlus
 									className="cursor-pointer"

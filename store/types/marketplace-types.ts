@@ -1,7 +1,7 @@
 type MarketplaceItems = {
 	itemName: string;
 	itemImage: string;
-	itemPrice: string;
+	itemPrice: number;
 	id: string;
 	isLiked: boolean;
 	isAdded: boolean;
@@ -19,3 +19,11 @@ export type MarketplaceStoreType = {
 	updateMarketplace: () => Promise<void>;
 	updateInCartItems: (targetID: string, item: MarketplaceItems) => void;
 };
+
+
+export type CartStoreType = {
+	isCartOpen: boolean;
+	isCartSuccess: boolean;
+	updateisCartSuccess: ()=> void;
+	updateIsCartOpen: ()=> void;
+}
