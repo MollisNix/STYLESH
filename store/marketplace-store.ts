@@ -9,6 +9,7 @@ export const useMarketplaceStore = create<MarketplaceStoreType>((set) => ({
 	marketplaceItems: [],
 	likedItems: [],
 	inCartItems: [],
+	searchedItems: [],
 
 	updateInCartItems: (targetID, item) => {
 		set((state) => {
@@ -25,6 +26,13 @@ export const useMarketplaceStore = create<MarketplaceStoreType>((set) => ({
 				}
 			);
 
+			const updatedSearchedItems = state.searchedItems.map((searchItem) => {
+				if (searchItem.id === targetID) {
+					return { ...searchItem, isAdded: !searchItem.isAdded };
+				}
+				return searchItem;
+			});
+
 			if (!isAdded) {
 				updateInCartItems = [...state.inCartItems, item];
 			} else {
@@ -36,6 +44,7 @@ export const useMarketplaceStore = create<MarketplaceStoreType>((set) => ({
 			return {
 				...state,
 				marketplaceItems: updatedMarketplaceItems,
+				searchedItems: updatedSearchedItems,
 				inCartItems: updateInCartItems,
 			};
 		});
@@ -55,6 +64,14 @@ export const useMarketplaceStore = create<MarketplaceStoreType>((set) => ({
 				}
 			);
 
+			const updateSearchedItems = state.searchedItems.map((searchedItem) => {
+				if (searchedItem.id === targetID) {
+					return { ...searchedItem, isLiked: !searchedItem.isLiked };
+				} else {
+					return searchedItem;
+				}
+			});
+
 			if (!isLiked) {
 				updatedLikedItems = [...state.likedItems, item];
 			} else {
@@ -67,8 +84,26 @@ export const useMarketplaceStore = create<MarketplaceStoreType>((set) => ({
 				...state,
 				likedItems: updatedLikedItems,
 				marketplaceItems: updatedMarketplaceItems,
+				searchedItems: updateSearchedItems,
 			};
 		}),
+
+	updateSearchedItems: (searchedInputValue) => {
+		if (!searchedInputValue.trim()) {
+			set({ searchedItems: [] });
+			return;
+		}
+
+		set((state) => {
+			const updateSearchedItems = state.marketplaceItems.filter((item) =>
+				item.itemName.toLocaleLowerCase().includes(searchedInputValue)
+			);
+
+			return {
+				searchedItems: updateSearchedItems,
+			};
+		});
+	},
 
 	updateMarketplace: async () => {
 		const response = await fetch("/server/marketplaceDB.json");
@@ -84,20 +119,19 @@ export const useMarketplaceStore = create<MarketplaceStoreType>((set) => ({
 	},
 }));
 
-
 export const useCartStore = create<CartStoreType>((set) => ({
 	isCartOpen: false,
 	isCartSuccess: false,
 
-	updateIsCartOpen: ()=> {
+	updateIsCartOpen: () => {
 		set((state) => {
-			return {...state, isCartOpen: !state.isCartOpen}
-		})
+			return { ...state, isCartOpen: !state.isCartOpen };
+		});
 	},
 
-	updateisCartSuccess: ()=> {
-		set((state)=> {
-			return {...state, isCartSuccess: !state.isCartSuccess}
-		})
-	}
-}))
+	updateisCartSuccess: () => {
+		set((state) => {
+			return { ...state, isCartSuccess: !state.isCartSuccess };
+		});
+	},
+}));

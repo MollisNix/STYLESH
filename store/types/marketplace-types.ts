@@ -15,9 +15,11 @@ export type MarketplaceStoreType = {
 	marketplaceItems: MarketplaceItems[];
 	likedItems: MarketplaceItems[];
 	inCartItems: MarketplaceItems[],
+	searchedItems: MarketplaceItems[];
 	updatedLikedItems: (targetID: string, item: MarketplaceItems) => void;
 	updateMarketplace: () => Promise<void>;
 	updateInCartItems: (targetID: string, item: MarketplaceItems) => void;
+	updateSearchedItems: (searchedInputValue: string)=> void;
 };
 
 
