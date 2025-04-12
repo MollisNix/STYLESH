@@ -2,7 +2,6 @@ import { create } from "zustand";
 import {
 	MarketplaceStoreType,
 	MarketplaceData,
-	CartStoreType,
 } from "./types/marketplace-types";
 
 export const useMarketplaceStore = create<MarketplaceStoreType>((set) => ({
@@ -10,6 +9,8 @@ export const useMarketplaceStore = create<MarketplaceStoreType>((set) => ({
 	likedItems: [],
 	inCartItems: [],
 	searchedItems: [],
+	isCartOpen: false,
+	isCartSuccess: false,
 
 	updateInCartItems: (targetID, item) => {
 		set((state) => {
@@ -89,14 +90,14 @@ export const useMarketplaceStore = create<MarketplaceStoreType>((set) => ({
 		}),
 
 	updateSearchedItems: (searchedInputValue) => {
-		if (!searchedInputValue.trim()) {
+		if (!searchedInputValue || !searchedInputValue.trim()) {
 			set({ searchedItems: [] });
 			return;
 		}
 
 		set((state) => {
 			const updateSearchedItems = state.marketplaceItems.filter((item) =>
-				item.itemName.toLocaleLowerCase().includes(searchedInputValue)
+				item.itemName.toLowerCase().includes(searchedInputValue)
 			);
 
 			return {
@@ -105,33 +106,52 @@ export const useMarketplaceStore = create<MarketplaceStoreType>((set) => ({
 		});
 	},
 
-	updateMarketplace: async () => {
-		const response = await fetch("/server/marketplaceDB.json");
-		const data: MarketplaceData = await response.json();
-		const initialization = data.storageItems.map((item) => {
-			return {
-				...item,
-				isLiked: false,
-				isAdded: false,
-			};
-		});
-		set({ marketplaceItems: initialization });
-	},
-}));
-
-export const useCartStore = create<CartStoreType>((set) => ({
-	isCartOpen: false,
-	isCartSuccess: false,
-
 	updateIsCartOpen: () => {
 		set((state) => {
 			return { ...state, isCartOpen: !state.isCartOpen };
 		});
 	},
 
-	updateisCartSuccess: () => {
+	updateIsCartSuccess: () => {
 		set((state) => {
 			return { ...state, isCartSuccess: !state.isCartSuccess };
 		});
+	},
+
+	updateMarketplace: async () => {
+		try {
+			const response = await fetch("/server/marketplaceDB.json");
+
+			if (!response.ok)
+				throw new Error(`HTTP error!, status${response.status}`);
+
+			const data: MarketplaceData = await response.json();
+			const initialization = data.storageItems.map((item) => {
+				return {
+					...item,
+					isLiked: false,
+					isAdded: false,
+				};
+			});
+
+			set((state) => {
+				const validLikedItems = state.likedItems.filter((likedItem) =>
+					initialization.some((newItem) => likedItem.id === newItem.id)
+				);
+				const validCartItem = state.inCartItems.filter((cartItem) =>
+					initialization.some((newItem) => cartItem.id === newItem.id)
+				);
+
+				return {
+					marketplaceItems: initialization,
+					likedItems: validLikedItems,
+					inCartItems: validCartItem,
+					searchedItems: [],
+				};
+			});
+		} catch (error) {
+			console.error("Failed to fetch  marketplace data:", error);
+			alert(error);
+		}
 	},
 }));

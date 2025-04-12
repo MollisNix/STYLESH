@@ -1,8 +1,5 @@
 import { Button } from "@/components/ui/button";
-import {
-	useCartStore,
-	useMarketplaceStore,
-} from "../../../../store/marketplace-store";
+import { useMarketplaceStore } from "../../../../store/marketplace-store";
 import {
 	Card,
 	CardContent,
@@ -15,9 +12,11 @@ import { map } from "lodash";
 import { useEffect } from "react";
 
 export const ActiveCart = () => {
-	const isCartOpen = useCartStore((state) => state.isCartOpen);
+	const isCartOpen = useMarketplaceStore((state) => state.isCartOpen);
 	const inCartData = useMarketplaceStore((state) => state.inCartItems);
-	const isCartSuccess = useCartStore((state) => state.updateisCartSuccess);
+	const isCartSuccess = useMarketplaceStore(
+		(state) => state.updateIsCartSuccess
+	);
 	const marketplaceData = useMarketplaceStore(
 		(state) => state.marketplaceItems
 	);
