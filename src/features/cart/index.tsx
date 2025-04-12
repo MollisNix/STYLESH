@@ -1,17 +1,16 @@
 "use client";
-import {
-	useCartStore,
-	useMarketplaceStore,
-} from "../../../store/marketplace-store";
+import { useMarketplaceStore } from "../../../store/marketplace-store";
 import { useEffect } from "react";
 import { ActiveCart } from "./components/active-cart";
 import { EmptyCart } from "./components/empty-cart";
 import { SuccessCart } from "./components/cart-success";
 export const Cart = () => {
-	const isCartOpen = useCartStore((state) => state.isCartOpen);
+	const isCartOpen = useMarketplaceStore((state) => state.isCartOpen);
 	const inCartData = useMarketplaceStore((state) => state.inCartItems);
-	const isCartSuccess = useCartStore((state) => state.isCartSuccess);
-	const updateIsCartOpen = useCartStore((state) => state.updateIsCartOpen);
+	const isCartSuccess = useMarketplaceStore((state) => state.isCartSuccess);
+	const updateIsCartOpen = useMarketplaceStore(
+		(state) => state.updateIsCartOpen
+	);
 
 	const cartOnclickHandler: React.MouseEventHandler<HTMLDivElement> = (e) => {
 		const target = e.target as HTMLDivElement;

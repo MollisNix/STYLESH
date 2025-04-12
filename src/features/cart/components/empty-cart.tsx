@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { useCartStore } from "../../../../store/marketplace-store";
+import { useMarketplaceStore } from "../../../../store/marketplace-store";
 export const EmptyCart = () => {
-	const updateIsCartOpen = useCartStore((state) => state.updateIsCartOpen);
+	const updateIsCartOpen = useMarketplaceStore(
+		(state) => state.updateIsCartOpen
+	);
 	const cartOnclickHandler = () => {
 		updateIsCartOpen();
 	};

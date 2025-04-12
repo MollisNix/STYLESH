@@ -4,7 +4,9 @@ import { Input } from "../../components/ui/input";
 
 import { Skeleton } from "@/components/ui/skeleton";
 
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
+
+import debounce from "lodash/debounce"
 
 import {
 	useMarketplaceStore,
@@ -26,8 +28,15 @@ export const Marketplace = () => {
 	);
 	const searchedItems = useMarketplaceStore((state) => state.searchedItems);
 
+	const debouncedSearch = useCallback(
+		debounce((value: string)=>{
+			updateSearchedItems(value.toLowerCase())
+		},300), [updateSearchedItems]
+	)
+
+	
 	const onChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-		updateSearchedItems(e.target.value.toLowerCase());
+		debouncedSearch(e.target.value.toLowerCase());
 	};
 
 	useEffect(() => {

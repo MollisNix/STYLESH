@@ -16,16 +16,12 @@ export type MarketplaceStoreType = {
 	likedItems: MarketplaceItems[];
 	inCartItems: MarketplaceItems[],
 	searchedItems: MarketplaceItems[];
+	isCartOpen: boolean;
+	isCartSuccess: boolean;
 	updatedLikedItems: (targetID: string, item: MarketplaceItems) => void;
 	updateMarketplace: () => Promise<void>;
 	updateInCartItems: (targetID: string, item: MarketplaceItems) => void;
 	updateSearchedItems: (searchedInputValue: string)=> void;
-};
-
-
-export type CartStoreType = {
-	isCartOpen: boolean;
-	isCartSuccess: boolean;
-	updateisCartSuccess: ()=> void;
+	updateIsCartSuccess: ()=> void;
 	updateIsCartOpen: ()=> void;
-}
+};
