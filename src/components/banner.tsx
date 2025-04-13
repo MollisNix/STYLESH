@@ -6,21 +6,20 @@ import Link from "next/link";
 
 export const Banner = () => {
 	return (
-		<div className="container mx-auto mt-20">
-			<div className="banner_content  grid grid-cols-2 grid-rows-2 gap-5 banner-bg-color p-10 rounded-2xl">
+		<div className="mx-auto mt-10 md:container">
+			<div className="banner_content  gap-5 banner-bg-color p-10  lg:grid lg:grid-cols-2 lg:grid-rows-2 lg:rounded-2xl ">
 				<Image src={bannerLogoImg} alt="banner-logo-image" />
-				<p className="col-start-1 row-start-2 text-6xl">
-					<span>Обирай найкраще,</span> тільки у нас!
-				</p>
-				<Button className="row-start-3 w-1/3" asChild={true}>
-					<Link href="#">КУПИТИ</Link>
-				</Button>
 				<Image
-					height={300}
 					src={bannerBodyImage}
 					alt="banner-body-image"
-					className="col-start-2 row-start-1 row-end-3 justify-end"
+					className="w-full lg:col-start-2 lg:row-start-1 lg:row-end-3 lg:justify-end"
 				/>
+				<p className="text-6xl mt-5 lg:col-start-1 lg:row-start-2">
+					<span>Обирай найкраще,</span> тільки у нас!
+				</p>
+				<Button className="mt-10 w-full lg:row-start-3">
+					<Link href="#">КУПИТИ</Link>
+				</Button>
 			</div>
 		</div>
 	);

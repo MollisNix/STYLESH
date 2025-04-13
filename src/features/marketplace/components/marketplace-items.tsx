@@ -8,9 +8,7 @@ import {
 import { Heart, SquarePlus } from "lucide-react";
 import Image from "next/image";
 import { map } from "lodash";
-import {
-	useMarketplaceStore,
-} from "../../../../store/marketplace-store";
+import { useMarketplaceStore } from "../../../../store/marketplace-store";
 
 export const MarketplaceItems = () => {
 	const marketplaceData = useMarketplaceStore(
@@ -40,11 +38,11 @@ export const MarketplaceItems = () => {
 			}
 		});
 	};
-	
+
 	return (
 		<>
 			{map(marketplaceData, (item) => (
-				<Card key={item.id} className="basis-2xs">
+				<Card key={item.id} className="basis-2/5 text-xs justify-center">
 					<CardHeader>
 						{item.isLiked ? (
 							<Heart
@@ -64,17 +62,20 @@ export const MarketplaceItems = () => {
 						<Image
 							src={item.itemImage}
 							alt="marketplace-item-image"
-							width={286}
+							width={100}
 							height={100}
-							className="select-none"
+							className="select-none w-full"
 						/>
 					</CardHeader>
-					<CardContent>
+					<CardContent className="">
 						<strong>{item.itemName}</strong>
 					</CardContent>
 					<CardFooter className="flex justify-between">
-						<strong>Ціна:</strong>
-						<strong>{item.itemPrice} тис. грн.</strong>
+						<div className="flex flex-col">
+							<strong>Ціна:</strong>
+							<strong>{item.itemPrice} тис. грн.</strong>
+						</div>
+
 						{item.isAdded ? (
 							<SquarePlus
 								className="cursor-pointer"
@@ -127,7 +128,10 @@ export const SearchedItems = () => {
 	return (
 		<>
 			{map(searchedItems, (item) => (
-				<Card key={item.id} className="basis-2xs">
+				<Card
+					key={item.id}
+					className="basis-2/5 text-xs justify-center lg:basis-2xs"
+				>
 					<CardHeader>
 						{item.isLiked ? (
 							<Heart
@@ -147,17 +151,20 @@ export const SearchedItems = () => {
 						<Image
 							src={item.itemImage}
 							alt="marketplace-item-image"
-							width={286}
+							width={100}
 							height={100}
-							className="select-none"
+							className="select-none w-full"
 						/>
 					</CardHeader>
 					<CardContent>
 						<strong>{item.itemName}</strong>
 					</CardContent>
 					<CardFooter className="flex justify-between">
-						<strong>Ціна:</strong>
-						<strong>{item.itemPrice} тис. грн.</strong>
+						<div className="flex flex-col">
+							<strong>Ціна:</strong>
+							<strong>{item.itemPrice} тис. грн.</strong>
+						</div>
+
 						{item.isAdded ? (
 							<SquarePlus
 								className="cursor-pointer"

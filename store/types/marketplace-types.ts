@@ -14,14 +14,14 @@ export type MarketplaceData = {
 export type MarketplaceStoreType = {
 	marketplaceItems: MarketplaceItems[];
 	likedItems: MarketplaceItems[];
-	inCartItems: MarketplaceItems[],
+	inCartItems: MarketplaceItems[];
 	searchedItems: MarketplaceItems[];
 	isCartOpen: boolean;
 	isCartSuccess: boolean;
 	updatedLikedItems: (targetID: string, item: MarketplaceItems) => void;
 	updateMarketplace: () => Promise<void>;
 	updateInCartItems: (targetID: string, item: MarketplaceItems) => void;
-	updateSearchedItems: (searchedInputValue: string)=> void;
-	updateIsCartSuccess: ()=> void;
-	updateIsCartOpen: ()=> void;
+	updateSearchedItems: (searchedInputValue: string) => void;
+	updateIsCartSuccess: () => void;
+	updateIsCartOpen: () => void;
 };

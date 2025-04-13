@@ -33,7 +33,7 @@ export const Cart = () => {
 			onClick={cartOnclickHandler}
 		>
 			<div
-				className={`fixed right-0 top-0 z-50 flex flex-col h-full w-md justify-between p-10 bg-white overflow-y-scroll transition-transform duration-300 ${
+				className={`fixed right-0 top-0 z-50 flex flex-col h-full w-full md:w-md justify-between p-10 bg-white overflow-y-scroll transition-transform duration-300 ${
 					isCartOpen ? "translate-x-0" : "translate-x-full"
 				}`}
 			>
