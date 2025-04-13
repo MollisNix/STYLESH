@@ -39,7 +39,7 @@ export const Marketplace = () => {
 
 	useEffect(() => {
 		updateMarketplace();
-	}, []);
+	}, [updateMarketplace]);
 
 	if (marketplaceData.length === 0) {
 		return (
