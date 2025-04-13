@@ -5,23 +5,30 @@ import {
 	NavigationMenuLink,
 	NavigationMenuList,
 } from "../../components/ui/navigation-menu";
+
 import Image from "next/image";
 import LogoImage from "../../../public/logo.png";
 import { Heart, ShoppingCart, User } from "lucide-react";
-import { useCartStore } from "../../../store/marketplace-store";
+import { useMarketplaceStore } from "../../../store/marketplace-store";
 
 export const Navigation = () => {
-	const updateCartStore = useCartStore((state) => state.updateIsCartOpen);
+	const updateCartStore = useMarketplaceStore(
+		(state) => state.updateIsCartOpen
+	);
 	const cartOnclickHandler = () => {
 		updateCartStore();
 	};
 
 	return (
-		<header className="container flex justify-between border-b-1 my-10 mx-auto pb-7">
-			<div className="flex gap-5">
-				<Image src={LogoImage} alt="navigation logo" />
+		<header className="flex flex-col p-6 w-full md:container md:flex-row md:justify-between border-b-1 mx-auto">
+			<div className="flex">
+				<Image
+					src={LogoImage}
+					alt="navigation logo"
+					className="md:w-1/4 h-fit"
+				/>
 
-				<div className="logo-text__content">
+				<div className="logo-text__content ms-5">
 					<h1>
 						<strong>STYLESH</strong>
 					</h1>
@@ -29,22 +36,22 @@ export const Navigation = () => {
 				</div>
 			</div>
 
-			<NavigationMenu>
-				<NavigationMenuList className="flex space-x-25">
+			<NavigationMenu className="flex mt-10 me-10 md:my-auto">
+				<NavigationMenuList className="flex flex-row gap-5 ms-10">
 					<NavigationMenuItem onClick={cartOnclickHandler}>
-						<NavigationMenuLink href="#" className="flex flex-row gap-3">
+						<NavigationMenuLink href="#" className="flex flex-row">
 							<ShoppingCart />
 							Тотал
 						</NavigationMenuLink>
 					</NavigationMenuItem>
 					<NavigationMenuItem>
-						<NavigationMenuLink href="#" className="flex flex-row gap-3">
+						<NavigationMenuLink href="#" className="flex flex-row">
 							<Heart />
 							Обране
 						</NavigationMenuLink>
 					</NavigationMenuItem>
 					<NavigationMenuItem>
-						<NavigationMenuLink href="#" className="flex flex-row gap-3">
+						<NavigationMenuLink href="#" className="flex flex-row">
 							<User />
 							Профіль
 						</NavigationMenuLink>

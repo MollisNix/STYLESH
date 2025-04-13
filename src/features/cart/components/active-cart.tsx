@@ -17,6 +17,10 @@ export const ActiveCart = () => {
 	const isCartSuccess = useMarketplaceStore(
 		(state) => state.updateIsCartSuccess
 	);
+
+	const updateIsCartOpen = useMarketplaceStore(
+		(state) => state.updateIsCartOpen
+	);
 	const marketplaceData = useMarketplaceStore(
 		(state) => state.marketplaceItems
 	);
@@ -35,6 +39,9 @@ export const ActiveCart = () => {
 		isCartSuccess();
 	};
 
+	const cartOnclickHandler = () => {
+		updateIsCartOpen();
+	};
 	useEffect(() => {
 		if (isCartOpen) {
 			document.body.style.overflow = "hidden";
@@ -51,7 +58,15 @@ export const ActiveCart = () => {
 	return (
 		<>
 			<div className="flex flex-col justify-start space-y-10 mb-5">
-				<h2>
+				<div className="flex flex-row justify-between md:hidden">
+					<h2>
+						<strong>Корзина</strong>
+					</h2>
+					<Button onClick={cartOnclickHandler} className="w-1/2">
+						Продовжити придбання
+					</Button>
+				</div>
+				<h2 className="hidden lg:block">
 					<strong>Корзина</strong>
 				</h2>
 

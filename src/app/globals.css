@@ -116,11 +116,11 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 }
-
 
 .banner-bg-color {
   background-color: #F4EFE9;
