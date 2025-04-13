@@ -9,6 +9,7 @@ import { Heart, SquarePlus } from "lucide-react";
 import Image from "next/image";
 import { map } from "lodash";
 import { useMarketplaceStore } from "../../../../store/marketplace-store";
+import { useEffect } from "react";
 
 export const MarketplaceItems = () => {
 	const marketplaceData = useMarketplaceStore(
@@ -38,6 +39,10 @@ export const MarketplaceItems = () => {
 			}
 		});
 	};
+
+	useEffect(() => {
+		marketplaceData.forEach((item) => console.log(item));
+	}, [marketplaceData]);
 
 	return (
 		<>

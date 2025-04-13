@@ -10,6 +10,7 @@ import Image from "next/image";
 import LogoImage from "../../../public/logo.png";
 import { Heart, ShoppingCart, User } from "lucide-react";
 import { useMarketplaceStore } from "../../../store/marketplace-store";
+import Link from "next/link";
 
 export const Navigation = () => {
 	const updateCartStore = useMarketplaceStore(
@@ -22,11 +23,9 @@ export const Navigation = () => {
 	return (
 		<header className="flex flex-col p-6 w-full md:container md:flex-row md:justify-between border-b-1 mx-auto">
 			<div className="flex">
-				<Image
-					src={LogoImage}
-					alt="navigation logo"
-					className="md:w-1/4 h-fit"
-				/>
+				<Link href="/" className="md:w-1/4 h-fit">
+					<Image src={LogoImage} alt="navigation logo" />
+				</Link>
 
 				<div className="logo-text__content ms-5">
 					<h1>
@@ -39,21 +38,27 @@ export const Navigation = () => {
 			<NavigationMenu className="flex mt-10 me-10 md:my-auto">
 				<NavigationMenuList className="flex flex-row gap-5 ms-10">
 					<NavigationMenuItem onClick={cartOnclickHandler}>
-						<NavigationMenuLink href="#" className="flex flex-row">
-							<ShoppingCart />
+						<NavigationMenuLink>
+							<ShoppingCart className="me-2" />
 							Тотал
 						</NavigationMenuLink>
 					</NavigationMenuItem>
+
 					<NavigationMenuItem>
-						<NavigationMenuLink href="#" className="flex flex-row">
-							<Heart />
-							Обране
+						<NavigationMenuLink asChild>
+							<Link href="/liked-page" className="flex flex-row">
+								<Heart className="me-2" />
+								Обране
+							</Link>
 						</NavigationMenuLink>
 					</NavigationMenuItem>
+
 					<NavigationMenuItem>
-						<NavigationMenuLink href="#" className="flex flex-row">
-							<User />
-							Профіль
+						<NavigationMenuLink asChild>
+							<Link href="#" className="flex flex-row">
+								<User className="me-2" />
+								Профіль
+							</Link>
 						</NavigationMenuLink>
 					</NavigationMenuItem>
 				</NavigationMenuList>
