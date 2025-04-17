@@ -17,12 +17,17 @@ export const Cart = () => {
 		if (target.classList.contains("overlay")) updateIsCartOpen();
 	};
 
+	
 	useEffect(() => {
 		if (isCartOpen) {
 			document.body.style.overflow = "hidden";
 		} else {
 			document.body.style.overflow = "";
 		}
+
+		return () => {
+			document.body.style.overflow = "";
+		};
 	}, [isCartOpen]);
 
 	return (

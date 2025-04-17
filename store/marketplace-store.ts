@@ -4,7 +4,7 @@ import {
 	MarketplaceStoreType,
 	MarketplaceData,
 } from "./types/marketplace-types";
-
+import { updateCartSubstores, updateLikedItemsSubstores } from "./tools";
 export const useMarketplaceStore = create<MarketplaceStoreType>()(
 	persist(
 		(set) => ({
@@ -17,35 +17,25 @@ export const useMarketplaceStore = create<MarketplaceStoreType>()(
 
 			updateInCartItems: (targetID, item) => {
 				set((state) => {
+					const updatedMarketplaceItems = updateCartSubstores(
+						state.marketplaceItems,
+						targetID
+					);
+
+					const updatedSearchedItems = updateCartSubstores(
+						state.searchedItems,
+						targetID
+					);
+
+					const updateLikedItems = updateCartSubstores(
+						state.likedItems,
+						targetID
+					);
 					const isAdded = state.inCartItems.some(
 						(item) => item.id === targetID
 					);
 
 					let updateInCartItems = state.inCartItems;
-					const updatedMarketplaceItems = state.marketplaceItems.map(
-						(marketItem) => {
-							if (marketItem.id === targetID) {
-								return { ...marketItem, isAdded: !marketItem.isAdded };
-							}
-
-							return marketItem;
-						}
-					);
-
-					const updatedSearchedItems = state.searchedItems.map((searchItem) => {
-						if (searchItem.id === targetID) {
-							return { ...searchItem, isAdded: !searchItem.isAdded };
-						}
-						return searchItem;
-					});
-
-					const updateLikedItems = state.likedItems.map((likedItem) => {
-						if (likedItem.id === targetID) {
-							return { ...likedItem, isAdded: !likedItem.isAdded };
-						}
-						return likedItem;
-					});
-
 					if (!isAdded) {
 						updateInCartItems = [...state.inCartItems, item];
 					} else {
@@ -66,29 +56,19 @@ export const useMarketplaceStore = create<MarketplaceStoreType>()(
 
 			updatedLikedItems: (targetID, item) =>
 				set((state) => {
+					const updatedMarketplaceItems = updateLikedItemsSubstores(
+						state.marketplaceItems,
+						targetID
+					);
+
+					const updateSearchedItems = updateLikedItemsSubstores(
+						state.searchedItems,
+						targetID
+					);
+
 					const isLiked = state.likedItems.some((item) => item.id === targetID);
 
 					let updatedLikedItems = state.likedItems;
-
-					const updatedMarketplaceItems = state.marketplaceItems.map(
-						(marketItem) => {
-							if (marketItem.id === targetID) {
-								return { ...marketItem, isLiked: !marketItem.isLiked };
-							}
-							return marketItem;
-						}
-					);
-
-					const updateSearchedItems = state.searchedItems.map(
-						(searchedItem) => {
-							if (searchedItem.id === targetID) {
-								return { ...searchedItem, isLiked: !searchedItem.isLiked };
-							} else {
-								return searchedItem;
-							}
-						}
-					);
-
 					if (!isLiked) {
 						updatedLikedItems = [
 							...state.likedItems,

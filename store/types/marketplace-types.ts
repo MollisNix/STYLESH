@@ -1,4 +1,4 @@
-type MarketplaceItems = {
+export type MarketplaceItemsType = {
 	itemName: string;
 	itemImage: string;
 	itemPrice: number;
@@ -8,19 +8,19 @@ type MarketplaceItems = {
 };
 
 export type MarketplaceData = {
-	storageItems: MarketplaceItems[];
+	storageItems: MarketplaceItemsType[];
 };
 
 export type MarketplaceStoreType = {
-	marketplaceItems: MarketplaceItems[];
-	likedItems: MarketplaceItems[];
-	inCartItems: MarketplaceItems[];
-	searchedItems: MarketplaceItems[];
+	marketplaceItems: MarketplaceItemsType[];
+	likedItems: MarketplaceItemsType[];
+	inCartItems: MarketplaceItemsType[];
+	searchedItems: MarketplaceItemsType[];
 	isCartOpen: boolean;
 	isCartSuccess: boolean;
-	updatedLikedItems: (targetID: string, item: MarketplaceItems) => void;
+	updatedLikedItems: (targetID: string, item: MarketplaceItemsType) => void;
 	updateMarketplace: () => Promise<void>;
-	updateInCartItems: (targetID: string, item: MarketplaceItems) => void;
+	updateInCartItems: (targetID: string, item: MarketplaceItemsType) => void;
 	updateSearchedItems: (searchedInputValue: string) => void;
 	updateIsCartSuccess: () => void;
 	updateIsCartOpen: () => void;

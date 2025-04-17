@@ -38,7 +38,14 @@ export const Marketplace = () => {
 	};
 
 	useEffect(() => {
-		updateMarketplace();
+		let isMounted = true;
+		
+		if(isMounted) updateMarketplace();
+		
+
+		return () => {
+			isMounted = false;
+		}
 	}, [updateMarketplace]);
 
 	if (marketplaceData.length === 0) {
