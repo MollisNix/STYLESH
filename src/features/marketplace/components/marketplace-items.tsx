@@ -8,58 +8,42 @@ import {
 import { Heart, SquarePlus } from "lucide-react";
 import Image from "next/image";
 import { map } from "lodash";
-import { useMarketplaceStore } from "../../../../store/marketplace-store";
-import { useEffect } from "react";
+import { useMarketplaceStore, useUserStore } from "../../../../store/store";
 
 export const MarketplaceItems = () => {
-	const marketplaceData = useMarketplaceStore(
-		(state) => state.marketplaceItems
-	);
-	const updatedLikedItems = useMarketplaceStore(
-		(state) => state.updatedLikedItems
-	);
-	const updateInCartItems = useMarketplaceStore(
-		(state) => state.updateInCartItems
-	);
-	const addTowishListHandler: React.MouseEventHandler<SVGSVGElement> = (e) => {
-		const target = e.currentTarget;
-		marketplaceData.map((item) => {
-			if (item.id === target.id) {
-				updatedLikedItems(target.id, item);
-			}
-		});
-	};
+	const marketplaceData = useMarketplaceStore((state) => state.maketplaceItems);
 
-	const addToCartHandler: React.MouseEventHandler<SVGSVGElement> = (e) => {
-		const target = e.currentTarget;
+	const updateUserInCartItems = useUserStore(
+		(state) => state.updateUserInCartItems
+	);
+	const updateUserLikedItems = useUserStore(
+		(state) => state.updateUserLikedItems
+	);
 
-		marketplaceData.map((item) => {
-			if (item.id === target.id) {
-				updateInCartItems(target.id, item);
-			}
-		});
-	};
-
-	useEffect(() => {
-		marketplaceData.forEach((item) => console.log(item));
-	}, [marketplaceData]);
+	const getUserInfo = useUserStore((state) => state.users);
+	const userLikedItems = getUserInfo[1]?.likedItemsID;
+	const userInCartItems = getUserInfo[1]?.inCartItemsID;
 
 	return (
 		<>
 			{map(marketplaceData, (item) => (
 				<Card key={item.id} className="basis-2/5 text-xs justify-center">
 					<CardHeader>
-						{item.isLiked ? (
+						{userLikedItems?.includes(item.id) ? (
 							<Heart
 								className="cursor-pointer"
 								color="#e60a20"
-								onClick={addTowishListHandler}
+								onClick={() =>
+									updateUserLikedItems("1", getUserInfo[1], item.id)
+								}
 								id={item.id}
 							/>
 						) : (
 							<Heart
 								className="cursor-pointer"
-								onClick={addTowishListHandler}
+								onClick={() =>
+									updateUserLikedItems("1", getUserInfo[1], item.id)
+								}
 								id={item.id}
 							/>
 						)}
@@ -81,17 +65,21 @@ export const MarketplaceItems = () => {
 							<strong>{item.itemPrice} тис. грн.</strong>
 						</div>
 
-						{item.isAdded ? (
+						{userInCartItems?.includes(item.id) ? (
 							<SquarePlus
 								className="cursor-pointer"
 								color="#07cf43"
-								onClick={addToCartHandler}
+								onClick={() =>
+									updateUserInCartItems("1", getUserInfo[1], item.id)
+								}
 								id={item.id}
 							/>
 						) : (
 							<SquarePlus
 								className="cursor-pointer"
-								onClick={addToCartHandler}
+								onClick={() =>
+									updateUserInCartItems("1", getUserInfo[1], item.id)
+								}
 								id={item.id}
 							/>
 						)}
@@ -103,32 +91,18 @@ export const MarketplaceItems = () => {
 };
 
 export const SearchedItems = () => {
+	const getUserInfo = useUserStore((state) => state.users);
+	const userLikedItems = getUserInfo[1]?.likedItemsID;
+	const userInCartItems = getUserInfo[1]?.inCartItemsID;
+
 	const searchedItems = useMarketplaceStore((state) => state.searchedItems);
-	const updatedLikedItems = useMarketplaceStore(
-		(state) => state.updatedLikedItems
+
+	const updateUserLikedItems = useUserStore(
+		(state) => state.updateUserLikedItems
 	);
-	const updateInCartItems = useMarketplaceStore(
-		(state) => state.updateInCartItems
+	const updateUserInCartItems = useUserStore(
+		(state) => state.updateUserInCartItems
 	);
-
-	const addTowishListHandler: React.MouseEventHandler<SVGSVGElement> = (e) => {
-		const target = e.currentTarget;
-		searchedItems.map((item) => {
-			if (item.id === target.id) {
-				updatedLikedItems(target.id, item);
-			}
-		});
-	};
-
-	const addToCartHandler: React.MouseEventHandler<SVGSVGElement> = (e) => {
-		const target = e.currentTarget;
-
-		searchedItems.map((item) => {
-			if (item.id === target.id) {
-				updateInCartItems(target.id, item);
-			}
-		});
-	};
 
 	return (
 		<>
@@ -138,17 +112,21 @@ export const SearchedItems = () => {
 					className="basis-2/5 text-xs justify-center lg:basis-2xs"
 				>
 					<CardHeader>
-						{item.isLiked ? (
+						{userLikedItems?.includes(item.id) ? (
 							<Heart
 								className="cursor-pointer"
 								color="#e60a20"
-								onClick={addTowishListHandler}
+								onClick={() =>
+									updateUserLikedItems("1", getUserInfo[1], item.id)
+								}
 								id={item.id}
 							/>
 						) : (
 							<Heart
 								className="cursor-pointer"
-								onClick={addTowishListHandler}
+								onClick={() =>
+									updateUserLikedItems("1", getUserInfo[1], item.id)
+								}
 								id={item.id}
 							/>
 						)}
@@ -170,17 +148,21 @@ export const SearchedItems = () => {
 							<strong>{item.itemPrice} тис. грн.</strong>
 						</div>
 
-						{item.isAdded ? (
+						{userInCartItems?.includes(item.id) ? (
 							<SquarePlus
 								className="cursor-pointer"
 								color="#07cf43"
-								onClick={addToCartHandler}
+								onClick={() =>
+									updateUserInCartItems("1", getUserInfo[1], item.id)
+								}
 								id={item.id}
 							/>
 						) : (
 							<SquarePlus
 								className="cursor-pointer"
-								onClick={addToCartHandler}
+								onClick={() =>
+									updateUserInCartItems("1", getUserInfo[1], item.id)
+								}
 								id={item.id}
 							/>
 						)}

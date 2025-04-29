@@ -1,23 +1,22 @@
 "use client";
-import { useMarketplaceStore } from "../../../store/marketplace-store";
 import { useEffect } from "react";
 import { ActiveCart } from "./components/active-cart";
 import { EmptyCart } from "./components/empty-cart";
 import { SuccessCart } from "./components/cart-success";
+import { useInCartItemStore } from "../../../store/store";
 export const Cart = () => {
-	const isCartOpen = useMarketplaceStore((state) => state.isCartOpen);
-	const inCartData = useMarketplaceStore((state) => state.inCartItems);
-	const isCartSuccess = useMarketplaceStore((state) => state.isCartSuccess);
-	const updateIsCartOpen = useMarketplaceStore(
+	const updateIsCartOpen = useInCartItemStore(
 		(state) => state.updateIsCartOpen
 	);
+	const isCartOpen = useInCartItemStore((state) => state.isCartOpen);
+	const isCartSuccess = useInCartItemStore((state) => state.isCartSuccess);
+	const inCartData = useInCartItemStore((state) => state.inCartItems);
 
 	const cartOnclickHandler: React.MouseEventHandler<HTMLDivElement> = (e) => {
 		const target = e.target as HTMLDivElement;
 		if (target.classList.contains("overlay")) updateIsCartOpen();
 	};
 
-	
 	useEffect(() => {
 		if (isCartOpen) {
 			document.body.style.overflow = "hidden";
@@ -29,7 +28,7 @@ export const Cart = () => {
 			document.body.style.overflow = "";
 		};
 	}, [isCartOpen]);
-
+	
 	return (
 		<div
 			className={`overlay fixed inset-0  bg-black/50 z-40 transition-transform duration-300 ease-in-out ${

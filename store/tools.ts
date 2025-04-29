@@ -1,27 +1,10 @@
-import { MarketplaceItemsType } from "./types/marketplace-types";
+import { MarketplaceItemsType } from "./types/store-types";
 
-export const updateCartSubstores = (
-	storeArray: MarketplaceItemsType[],
-	targetID: string
-): MarketplaceItemsType[] => {
-	return storeArray.map((item) => {
-		if (item.id === targetID) {
-			return { ...item, isAdded: !item.isAdded };
-		}
+export async function fetchTool() {
+	const response = await fetch("http://localhost:3000/storageItems");
+	if (!response.ok) throw new Error("HTTP Request Error");
 
-		return item;
-	});
-};
+	const data: MarketplaceItemsType[] = await response.json();
 
-export const updateLikedItemsSubstores = (
-	storeArray: MarketplaceItemsType[],
-	targetID: string
-): MarketplaceItemsType[] => {
-	return storeArray.map((item) => {
-		if (item.id === targetID) {
-			return { ...item, isLiked: !item.isLiked };
-		}
-
-		return item;
-	});
-};
+	return data;
+}
