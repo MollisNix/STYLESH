@@ -1,6 +1,5 @@
 "use client";
 import { ArrowLeftToLine, Heart, SquarePlus } from "lucide-react";
-import { useMarketplaceStore } from "../../../store/marketplace-store";
 import {
 	Card,
 	CardHeader,
@@ -10,38 +9,47 @@ import {
 import Image from "next/image";
 import { map } from "lodash";
 import Link from "next/link";
+import {
+	useInCartItemStore,
+	useLikedItemStore,
+	useUserStore,
+} from "../../../store/store";
+import { useEffect } from "react";
 
 export default function LikedPage() {
-	const likedItems = useMarketplaceStore((state) => state.likedItems);
-	const marketplaceData = useMarketplaceStore(
-		(state) => state.marketplaceItems
+	const getUserInfo = useUserStore((state) => state.users);
+	const userLikedItems = getUserInfo[1]?.likedItemsID;
+
+	const updatetLikedItems = useLikedItemStore(
+		(state) => state.updateLikedItems
 	);
-	const updatedLikedItems = useMarketplaceStore(
-		(state) => state.updatedLikedItems
+
+	const updateUserLikedItems = useUserStore(
+		(state) => state.updateUserLikedItems
 	);
-	const updateInCartItems = useMarketplaceStore(
+
+	const likedItems = useLikedItemStore((state) => state.likedItems);
+
+	useEffect(() => {
+		const fetchPromis = async () => {
+			await updatetLikedItems(userLikedItems);
+		};
+		fetchPromis();
+	}, [updatetLikedItems, userLikedItems]);
+
+	const updateUserInCartItems = useUserStore(
+		(state) => state.updateUserInCartItems
+	);
+
+	const isAdded = getUserInfo[1].inCartItemsID;
+
+	const updateInCartItems = useInCartItemStore(
 		(state) => state.updateInCartItems
 	);
-	const deleteFromWishListHandler: React.MouseEventHandler<SVGSVGElement> = (
-		e
-	) => {
-		const target = e.currentTarget;
-		likedItems.map((item) => {
-			if (item.id === target.id) {
-				updatedLikedItems(target.id, item);
-			}
-		});
-	};
 
-	const addToCartHandler: React.MouseEventHandler<SVGSVGElement> = (e) => {
-		const target = e.currentTarget;
-
-		marketplaceData.map((item) => {
-			if (item.id === target.id) {
-				updateInCartItems(target.id, item);
-			}
-		});
-	};
+	useEffect(() => {
+		updateInCartItems(getUserInfo[1].inCartItemsID);
+	}, [updateInCartItems, getUserInfo]);
 
 	if (likedItems.length === 0) {
 		return (
@@ -78,17 +86,21 @@ export default function LikedPage() {
 					{map(likedItems, (item) => (
 						<Card key={item.id} className="basis-2/5 text-xs justify-center">
 							<CardHeader>
-								{item.isLiked ? (
+								{userLikedItems?.includes(item.id) ? (
 									<Heart
 										className="cursor-pointer"
 										color="#e60a20"
-										onClick={deleteFromWishListHandler}
+										onClick={() =>
+											updateUserLikedItems("1", getUserInfo[1], item.id)
+										}
 										id={item.id}
 									/>
 								) : (
 									<Heart
 										className="cursor-pointer"
-										onClick={deleteFromWishListHandler}
+										onClick={() =>
+											updateUserLikedItems("1", getUserInfo[1], item.id)
+										}
 										id={item.id}
 									/>
 								)}
@@ -110,17 +122,21 @@ export default function LikedPage() {
 									<strong>{item.itemPrice} тис. грн.</strong>
 								</div>
 
-								{item.isAdded ? (
+								{isAdded.includes(item.id) ? (
 									<SquarePlus
 										className="cursor-pointer"
 										color="#07cf43"
-										onClick={addToCartHandler}
+										onClick={() =>
+											updateUserInCartItems("1", getUserInfo[1], item.id)
+										}
 										id={item.id}
 									/>
 								) : (
 									<SquarePlus
 										className="cursor-pointer"
-										onClick={addToCartHandler}
+										onClick={() =>
+											updateUserInCartItems("1", getUserInfo[1], item.id)
+										}
 										id={item.id}
 									/>
 								)}

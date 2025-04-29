@@ -9,22 +9,20 @@ import {
 import Image from "next/image";
 import LogoImage from "../../../public/logo.png";
 import { Heart, ShoppingCart, User } from "lucide-react";
-import { useMarketplaceStore } from "../../../store/marketplace-store";
 import Link from "next/link";
+import { useInCartItemStore } from "../../../store/store";
 
 export const Navigation = () => {
-	const updateCartStore = useMarketplaceStore(
-		(state) => state.updateIsCartOpen
-	);
+	const updateIsCartOpen = useInCartItemStore((state) => state.updateIsCartOpen)
 	const cartOnclickHandler = () => {
-		updateCartStore();
+		updateIsCartOpen();
 	};
 
 	return (
-		<header className="flex flex-col p-6 w-full md:container md:flex-row md:justify-between border-b-1 mx-auto">
+		<header className="flex flex-col p-6 w-full md:container md:flex-row md:justify-between border-b mx-auto">
 			<div className="flex">
-				<Link href="/" className="md:w-1/4 h-fit">
-					<Image src={LogoImage} alt="navigation logo" />
+				<Link href="/" aria-label="Перехід на головну сторінку" className="md:w-1/4 h-fit">
+					<Image src={LogoImage} alt="Stylesh logo" />
 				</Link>
 
 				<div className="logo-text__content ms-5">
@@ -37,8 +35,8 @@ export const Navigation = () => {
 
 			<NavigationMenu className="flex mt-10 me-10 md:my-auto">
 				<NavigationMenuList className="flex flex-row gap-5 ms-10">
-					<NavigationMenuItem onClick={cartOnclickHandler}>
-						<NavigationMenuLink>
+					<NavigationMenuItem className="cursor-pointer">
+						<NavigationMenuLink onClick={cartOnclickHandler} className="flex flex-row">
 							<ShoppingCart className="me-2" />
 							Тотал
 						</NavigationMenuLink>

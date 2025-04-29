@@ -6,46 +6,68 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import { useEffect, useCallback } from "react";
 
-import debounce from "lodash/debounce";
+import { debounce } from "lodash";
 
-import { useMarketplaceStore } from "../../../store/marketplace-store";
+import {
+	useInCartItemStore,
+	useMarketplaceStore,
+	useUserStore,
+} from "../../../store/store";
 import {
 	MarketplaceItems,
 	SearchedItems,
 } from "./components/marketplace-items";
 
+import { UsersDB } from "../../../store/types/store-types";
+
 export const Marketplace = () => {
-	const marketplaceData = useMarketplaceStore(
-		(state) => state.marketplaceItems
-	);
+	const getUserInfo = useUserStore((state) => state.users);
+	const updateUserInfo = useUserStore((state) => state.updateUserInfo);
+
+	const marketplaceData = useMarketplaceStore((state) => state.maketplaceItems);
 	const updateMarketplace = useMarketplaceStore(
-		(state) => state.updateMarketplace
+		(state) => state.updateMarketplaceItems
 	);
+
 	const updateSearchedItems = useMarketplaceStore(
 		(state) => state.updateSearchedItems
 	);
 	const searchedItems = useMarketplaceStore((state) => state.searchedItems);
 
+	const updateInCartItems = useInCartItemStore(
+		(state) => state.updateInCartItems
+	);
+
+	//  start Цей код не факт що працює коректно
 	const debouncedSearch = useCallback(
 		debounce((value: string) => {
 			updateSearchedItems(value.toLowerCase());
 		}, 300),
 		[updateSearchedItems]
 	);
-
-	const onChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-		debouncedSearch(e.target.value.toLowerCase());
-	};
+//  end
+	useEffect(() => {
+		const fetchUser = async () => {
+			try {
+				const response = await fetch("http://localhost:3000/users");
+				if (!response.ok) throw new Error("HTTP Request Error");
+				const data: UsersDB[] = await response.json();
+				data.forEach((userData) => {
+					updateUserInfo(userData.id, userData.userInfo);
+				});
+			} catch (error) {
+				console.error(error);
+			}
+		};
+		fetchUser();
+	}, [updateUserInfo]);
 
 	useEffect(() => {
-		let isMounted = true;
-		
-		if(isMounted) updateMarketplace();
-		
+		updateInCartItems(getUserInfo[1]?.inCartItemsID);
+	}, [ updateInCartItems, getUserInfo]);
 
-		return () => {
-			isMounted = false;
-		}
+	useEffect(() => {
+		updateMarketplace();
 	}, [updateMarketplace]);
 
 	if (marketplaceData.length === 0) {
@@ -75,13 +97,13 @@ export const Marketplace = () => {
 		<div className="flex flex-col mt-10 gap-5 mx-auto md:container">
 			<div className="top-content flex flex-col w-full justify-center gap-5 md:flex-row md:justify-between md:px-10 max-xl:px-10 xl:p-0">
 				<h2 className="text-center text-2xl">Весь товар</h2>
-				<form action="get">
+				<div>
 					<Input
 						placeholder="Знайди свої кросівки!"
 						className="w-full md:w-2xs lg:w-2xl"
-						onChange={onChangeHandler}
+						onChange={(e) => debouncedSearch(e.target.value.toLowerCase())}
 					/>
-				</form>
+				</div>
 			</div>
 			<div className="marketplace flex flex-wrap  lg:grid lg:grid-cols-4 lg:p-5  justify-center gap-5 mb-10 xl:justify-start ">
 				{searchedItems.length === 0 ? <MarketplaceItems /> : <SearchedItems />}

@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { useMarketplaceStore } from "../../../../store/marketplace-store";
 import {
 	Card,
 	CardContent,
@@ -9,48 +8,22 @@ import {
 import Image from "next/image";
 import { CircleX } from "lucide-react";
 import { map } from "lodash";
-import { useEffect } from "react";
+// import { useEffect } from "react";
+import { useInCartItemStore, useUserStore } from "../../../../store/store";
 
 export const ActiveCart = () => {
-	const isCartOpen = useMarketplaceStore((state) => state.isCartOpen);
-	const inCartData = useMarketplaceStore((state) => state.inCartItems);
-	const isCartSuccess = useMarketplaceStore(
+	const inCartItems = useInCartItemStore((state) => state.inCartItems);
+	const getUserInfo = useUserStore((state) => state.users);
+
+	const removeCartItems = useUserStore((state) => state.updateUserInCartItems);
+	const updateIsCartOpen = useInCartItemStore(
+		(state) => state.updateIsCartOpen
+	);
+	const isCartSuccess = useInCartItemStore(
 		(state) => state.updateIsCartSuccess
 	);
 
-	const updateIsCartOpen = useMarketplaceStore(
-		(state) => state.updateIsCartOpen
-	);
-	const marketplaceData = useMarketplaceStore(
-		(state) => state.marketplaceItems
-	);
-	const updateInCartItems = useMarketplaceStore(
-		(state) => state.updateInCartItems
-	);
-
-	const removeCartItem: React.MouseEventHandler<SVGSVGElement> = (e) => {
-		const target = e.currentTarget;
-		marketplaceData.map((item) => {
-			if (target.id === item.id) updateInCartItems(target.id, item);
-		});
-	};
-
-	const onCartSuccessHandle = () => {
-		isCartSuccess();
-	};
-
-	const cartOnclickHandler = () => {
-		updateIsCartOpen();
-	};
-	useEffect(() => {
-		if (isCartOpen) {
-			document.body.style.overflow = "hidden";
-		} else {
-			document.body.style.overflow = "";
-		}
-	}, [isCartOpen]);
-
-	const totalItemsPrice = inCartData.reduce(
+	const totalItemsPrice = inCartItems.reduce(
 		(totalCost, item) => totalCost + (item.itemPrice || 0),
 		0
 	);
@@ -62,7 +35,7 @@ export const ActiveCart = () => {
 					<h2>
 						<strong>Корзина</strong>
 					</h2>
-					<Button onClick={cartOnclickHandler} className="w-1/2">
+					<Button onClick={() => updateIsCartOpen()} className="w-1/2">
 						Продовжити придбання
 					</Button>
 				</div>
@@ -70,7 +43,7 @@ export const ActiveCart = () => {
 					<strong>Корзина</strong>
 				</h2>
 
-				{map(inCartData, (data) => (
+				{map(inCartItems, (data) => (
 					<Card className="flex flex-row" key={data.id}>
 						<CardHeader className="me-5">
 							<Image
@@ -85,7 +58,7 @@ export const ActiveCart = () => {
 						<CardFooter>
 							<CircleX
 								className="cursor-pointer"
-								onClick={removeCartItem}
+								onClick={() => removeCartItems("1", getUserInfo[1], data.id)}
 								id={data.id}
 							/>
 						</CardFooter>
@@ -98,14 +71,14 @@ export const ActiveCart = () => {
 					Ціна товару:<span className="ms-5">{totalItemsPrice} тис. грн.</span>
 				</p>
 				<p>
-					Податок 10%:<span className="ms-5">{taxes} тис. грн.</span>
+					Податок 10%:<span className="ms-5">{taxes} грн.</span>
 				</p>
 				<strong>
 					Усього до сплати:
 					<span className="ms-5">{totalItemsPrice + taxes} тис. грн.</span>
 				</strong>
 
-				<Button onClick={onCartSuccessHandle}>Оформити замовлення</Button>
+				<Button onClick={() => isCartSuccess()}>Оформити замовлення</Button>
 			</div>
 		</>
 	);
